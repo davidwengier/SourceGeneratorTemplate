@@ -6,11 +6,19 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using SourceGenerator;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace SourceGeneratorTests
 {
     public class Tests
     {
+		private readonly ITestOutputHelper _output;
+
+		public Tests(ITestOutputHelper output)
+		{
+            _output = output;
+		}
+
         [Fact]
         public void Test1()
         {
@@ -31,7 +39,7 @@ namespace Foo
             Assert.Equal("class Foo { }", output);
         }
 
-        private static string GetGeneratedOutput(string source)
+        private string GetGeneratedOutput(string source)
         {
             var syntaxTree = CSharpSyntaxTree.ParseText(source);
 
@@ -53,6 +61,9 @@ namespace Foo
             var generator = new Generator();
 
             var output = generator.GetGeneratedSource(compilation);
+
+            _output.WriteLine(output);
+
             return output;
         }
     }
