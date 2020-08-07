@@ -36,12 +36,10 @@ namespace Foo
 
             Assert.NotNull(output);
 
-            _output.WriteLine(output);
-
             Assert.Equal("class Foo { }", output);
         }
 
-        private static string GetGeneratedOutput(string source)
+        private string GetGeneratedOutput(string source)
         {
             var syntaxTree = CSharpSyntaxTree.ParseText(source);
 
@@ -63,6 +61,9 @@ namespace Foo
             var generator = new Generator();
 
             var output = generator.GetGeneratedSource(compilation);
+
+            _output.WriteLine(output);
+
             return output;
         }
     }
