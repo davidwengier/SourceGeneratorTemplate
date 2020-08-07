@@ -6,11 +6,19 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using SourceGenerator;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace SourceGeneratorTests
 {
     public class Tests
     {
+		private readonly ITestOutputHelper _output;
+
+		public Tests(ITestOutputHelper output)
+		{
+            _output = output;
+		}
+
         [Fact]
         public void Test1()
         {
@@ -27,6 +35,8 @@ namespace Foo
             string output = GetGeneratedOutput(source);
 
             Assert.NotNull(output);
+
+            _output.WriteLine(output);
 
             Assert.Equal("class Foo { }", output);
         }
