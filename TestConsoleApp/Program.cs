@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Reflection;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -57,11 +58,17 @@ namespace Foo
 
             ImmutableArray<Diagnostic> diagnostics = compilation.GetDiagnostics();
 
-            var generator = new Generator();
+            if (diagnostics.Any())
+            {
+                return (diagnostics, "");
+            }
 
-            var output = generator.GetGeneratedSource(compilation);
+            ISourceGenerator generator = new Generator();
 
-            return (diagnostics, output);
+            var driver = new CSharpGeneratorDriver(compilation.SyntaxTrees[0].Options, ImmutableArray.Create(generator), default, ImmutableArray<AdditionalText>.Empty);
+            driver.RunFullGeneration(compilation, out var outputCompilation, out diagnostics);
+
+            return (diagnostics, outputCompilation.SyntaxTrees.Last().ToString());
         }
     }
 }

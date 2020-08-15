@@ -15,16 +15,12 @@ namespace SourceGenerator
 
         public void Execute(SourceGeneratorContext context)
         {
-            var source = GetGeneratedSource(context.Compilation);
+            var source = "class Foo { }";
+
             if (source != null)
             {
                 context.AddSource("generated.cs", SourceText.From(source, Encoding.UTF8));
             }
-        }
-
-        public string GetGeneratedSource(Compilation compilation)
-        {
-            return "class Foo { }";
         }
     }
 }
