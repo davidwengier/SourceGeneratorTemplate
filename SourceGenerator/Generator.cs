@@ -9,17 +9,17 @@ namespace SourceGenerator
     [Generator]
     public class Generator : ISourceGenerator
     {
-        public void Initialize(InitializationContext context)
+        public void Initialize(GeneratorInitializationContext context)
         {
         }
 
-        public void Execute(SourceGeneratorContext context)
+        public void Execute(GeneratorExecutionContext context)
         {
             var source = "class Foo { }";
 
             if (source != null)
             {
-                context.AddSource("generated.cs", SourceText.From(source, Encoding.UTF8));
+                context.AddSource("generated.cs", source);
             }
         }
     }

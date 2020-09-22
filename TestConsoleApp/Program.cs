@@ -65,8 +65,8 @@ namespace Foo
 
             ISourceGenerator generator = new Generator();
 
-            var driver = new CSharpGeneratorDriver(compilation.SyntaxTrees[0].Options, ImmutableArray.Create(generator), default, ImmutableArray<AdditionalText>.Empty);
-            driver.RunFullGeneration(compilation, out var outputCompilation, out diagnostics);
+            var driver = CSharpGeneratorDriver.Create(generator);
+            driver.RunGeneratorsAndUpdateCompilation(compilation, out var outputCompilation, out diagnostics);
 
             return (diagnostics, outputCompilation.SyntaxTrees.Last().ToString());
         }
