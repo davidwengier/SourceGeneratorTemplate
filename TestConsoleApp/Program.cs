@@ -56,19 +56,21 @@ namespace Foo
 
             var compilation = CSharpCompilation.Create("foo", new SyntaxTree[] { syntaxTree }, references, new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
-            ImmutableArray<Diagnostic> diagnostics = compilation.GetDiagnostics();
-
-            if (diagnostics.Any())
-            {
-                return (diagnostics, "");
-            }
+            // TODO: Uncomment these lines if you want to return immediately if the injected program isn't valid _before_ running generators
+            //
+            // ImmutableArray<Diagnostic> compilationDiagnostics = compilation.GetDiagnostics();
+            //
+            // if (diagnostics.Any())
+            // {
+            //     return (diagnostics, "");
+            // }
 
             ISourceGenerator generator = new Generator();
 
             var driver = CSharpGeneratorDriver.Create(generator);
-            driver.RunGeneratorsAndUpdateCompilation(compilation, out var outputCompilation, out diagnostics);
+            driver.RunGeneratorsAndUpdateCompilation(compilation, out var outputCompilation, out var generateDiagnostics);
 
-            return (diagnostics, outputCompilation.SyntaxTrees.Last().ToString());
+            return (generateDiagnostics, outputCompilation.SyntaxTrees.Last().ToString());
         }
     }
 }
