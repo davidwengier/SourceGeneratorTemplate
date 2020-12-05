@@ -48,7 +48,7 @@ namespace Foo
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
             foreach (var assembly in assemblies)
             {
-                if (!assembly.IsDynamic)
+                if (!assembly.IsDynamic && !string.IsNullOrWhiteSpace(assembly.Location))
                 {
                     references.Add(MetadataReference.CreateFromFile(assembly.Location));
                 }
