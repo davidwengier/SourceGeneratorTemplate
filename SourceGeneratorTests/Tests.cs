@@ -37,7 +37,7 @@ namespace Foo
 
             Assert.NotNull(output);
 
-            Assert.Equal("class Foo { }", output);
+            Assert.Equal("// global::Foo.C", output.Trim());
         }
 
         private string GetGeneratedOutput(string source)

@@ -65,7 +65,7 @@ namespace Foo
             //     return (diagnostics, "");
             // }
 
-            ISourceGenerator generator = new Generator();
+            var generator = new Generator();
 
             var driver = CSharpGeneratorDriver.Create(generator);
             driver.RunGeneratorsAndUpdateCompilation(compilation, out var outputCompilation, out var generateDiagnostics);
